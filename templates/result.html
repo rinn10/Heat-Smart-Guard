@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>計算結果</title>
+    <style>
+        body {
+            font-family: Meiryo, sans-serif;
+            background: linear-gradient(to bottom, #FFEFD5, #ADD8E6);
+            margin: 20px;
+            padding: 16px;
+        }
+        .container1 {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #FF4500;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        final{
+            font-size: 25px;
+            color: #F39800;
+        }
+    </style>
+</head>
+
+<div id="navbar"></div>
+<script>
+  fetch('navigation.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('navbar').innerHTML = data;
+    });
+</script>
+
+<body>
+    <div class="container1">
+        <h1>計算結果</h1>
+        <div id="result-container">
+            <p>計算結果を読み込んでいます...</p>
+        </div>
+        <button id="retry-btn">もう一度やってみる</button>
+        <p>※注　最終リスクは個人の健康状態によって変動します。</p>
+    </div>
+
+    <script>
+        function displayResult() {
+            const resultContainer = document.getElementById("result-container");
+            const resultData = JSON.parse(localStorage.getItem("heatRiskResult"));
+            
+            console.log("LocalStorage data:", localStorage.getItem("heatRiskResult"));
+
+            if (!resultData) {
+                resultContainer.innerHTML = `
+                    <p>計算結果が見つかりません。再試行してください。</p>
+                `;
+                return;
+            }
+
+            resultContainer.innerHTML = `
+                <p><strong>都市名:</strong> ${resultData.city_name}</p>
+                <p><strong>年齢:</strong> ${resultData.age}</p>
+                <p><strong>場所:</strong> ${resultData.condition}</p>
+                <p class="final"><strong>最終リスク:${Number(resultData.riskLevel).toFixed(2)}</strong></p>
+            `;
+        }
+        
+        document.getElementById("retry-btn").addEventListener("click", () => {
+            window.location.href = "risk.html";
+        });
+
+        document.addEventListener("DOMContentLoaded", displayResult);
+    </script>
+</body>
+</html>

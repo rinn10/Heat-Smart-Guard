@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>熱中症スマートガード</title>
+  <style>
+    body {
+      font-family: Meiryo, sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom, #FFEFD5, #ADD8E6);
+      padding: 16px;
+    }
+    .container1 {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .card h2 {
+      font-size: 1.25rem;
+      color: #333;
+      margin-bottom: 16px;
+    }
+    .card p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .grid-item {
+      background: #FFFAE5;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      position: relative;
+    }
+    .grid-item.highlight {
+      background: #FFE5E5;
+    }
+    .grid-item .number {
+      font-size: 1.5rem;
+      color: #CCC;
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+    .grid-item .title {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 16px;
+      color: #444;
+    }
+    .grid-item .subtitle {
+      font-size: 0.875rem;
+      color: #666;
+    }
+    .button {
+      display: inline-block;
+      background: #FF4500;
+      color: #FFF;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    .button:hover {
+      background: #E63E00;
+      transform: scale(1.05);
+    }
+    .button .icon {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+
+<div id="navbar"></div>
+<script>
+  fetch('navigation.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('navbar').innerHTML = data;
+    });
+</script>
+      
+<body>
+  <div class="container1">
+    <div class="card">
+      <h2>１．地球温暖化や気候変動による熱中症の発生リスク増加</h2>
+      <p>地球温暖化に伴う気温の上昇と湿度の増加は、熱中症のリスクを高める要因となっています。この問題は、単なる健康上の懸念にとどまらず、気候変動がもたらす主要なリスクの一つとして国際的に指摘されています。</p>
+      <h3>気候変動による将来の主要なリスク</h3>
+      <p>熱中症は気候変動による8つの主要なリスクの１つとして挙げられています。</p>
+      <div class="grid">
+        <div class="grid-item">
+          <div class="number">1</div>
+          <div class="title">海面上昇・高潮</div>
+          <div class="subtitle">(沿岸)</div>
+        </div>
+        <div class="grid-item">
+          <div class="number">2</div>
+          <div class="title">洪水・豪雨</div>
+          <div class="subtitle">(大都市)</div>
+        </div>
+        <div class="grid-item">
+          <div class="number">3</div>
+          <div class="title">インフラ機能停止</div>
+          <div class="subtitle">(電気供給や医療)</div>
+        </div>
+        <div class="grid-item highlight">
+          <div class="number">4</div>
+          <div class="title">熱中症</div>
+          <div class="subtitle">(死亡、健康被害)</div>
+        </div>
+        <div class="grid-item">
+          <p>将来の主要なリスクとは？</p>
+        </div>
+        <div class="grid-item">
+          <div class="number">5</div>
+          <div class="title">食糧不足</div>
+          <div class="subtitle">(電気供給や医療)</div>
+        </div>
+        <div class="grid-item">
+          <div class="number">6</div>
+          <div class="title">水不足</div>
+          <div class="subtitle">(飲料水、灌漑用水)</div>
+        </div>
+        <div class="grid-item">
+          <div class="number">7</div>
+          <div class="title">海洋生態系損失</div>
+          <div class="subtitle">(漁業)</div>
+        </div>
+        <div class="grid-item">
+          <div class="number">8</div>
+          <div class="title">陸上生態系損失</div>
+          <div class="subtitle">(陸域及び内水)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>２．個人によって異なる熱中症リスク</h2>
+      <p>熱中症の発生リスクは、単に気温や湿度だけで決まるわけではありません。活動が屋外で行われるか屋内で行われるかといった環境の違いや、年齢、健康状態など、個人の状況によっても大きく変動します。</p>
+    </div>
+
+    <div class="card">
+      <h2>3. 熱中症スマートガードのねらい</h2>
+      <p>熱中症スマートガードでは、気象データや個人情報を総合的にモデル化し、現在の熱中症リスクレベルを算出します。このリスクレベルは、各個人が適切な行動を判断する目安として提供し、被害を未然に防ぐことを目的としています。</p>
+    </div>
+
+    <div class="text-center">
+      <a href="risk.html" class="button">
+        あなたの熱中症リスクレベルを計算する
+      </a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>熱中症指数</title>
+  <style>
+    body {
+      font-family: Meiryo, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background: linear-gradient(to bottom, #FFEFD5, #ADD8E6);
+    }
+    .container1 {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .card h2 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 16px;
+    }
+    .card p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+    th, td {
+      border: 1px solid #CCC;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #FFEFD5;
+    }
+    a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .btn {
+      display: inline-block;
+      background: #FF4500;
+      color: #FFF;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    .btn:hover {
+      background: #E63E00;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<div id="navbar"></div>
+<script>
+  fetch('navigation.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('navbar').innerHTML = data;
+    });
+</script>
+
+<body>
+  <div class="container1">
+    <div class="card">
+      <h2>１．主な熱中症指数</h2>
+      <p>
+        世界各国には複数の熱中症指数があります。そのうちWBGTとHeat Indexは使用地域が多い汎用的な指標であるため、本サイトでもリスクレベルの計算に使用しました。
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>指数名</th>
+            <th>主な用途</th>
+            <th>主な使用地域</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>WBGT (湿球黒球温度)</td>
+            <td>労働、スポーツ活動</td>
+            <td>大 (世界全域)</td>
+          </tr>
+          <tr>
+            <td>HI (Heat Index)</td>
+            <td>天気予報</td>
+            <td>大 (世界全域)</td>
+          </tr>
+          <tr>
+            <td>UTCI</td>
+            <td>気候評価、都市計画</td>
+            <td>中 (主にヨーロッパ、アジア)</td>
+          </tr>
+          <tr>
+            <td>TCI (Temperature-Humidity Index)</td>
+            <td>労働環境、健康管理</td>
+            <td>中 (北米、アジア、南米)</td>
+          </tr>
+          <tr>
+            <td>Apparent Temperature</td>
+            <td>気象情報</td>
+            <td>中 (北米、ヨーロッパ、アジア)</td>
+          </tr>
+          <tr>
+            <td>PPD</td>
+            <td>室内環境評価</td>
+            <td>小 (先進国都市)</td>
+          </tr>
+          <tr>
+            <td>PET (Physiological Equivalent Temperature)</td>
+            <td>都市環境、観光地</td>
+            <td>中 (ヨーロッパ、アジア)</td>
+          </tr>
+          <tr>
+            <td>SET (Standard Effective Temperature)</td>
+            <td>室内外の快適性</td>
+            <td>中 (北米、ヨーロッパ)</td>
+          </tr>
+          <tr>
+            <td>Humidex (湿度指数)</td>
+            <td>日常の健康管理</td>
+            <td>中 (北米、アジア)</td>
+          </tr>
+          <tr>
+            <td>Discomfort Index (不快指数)</td>
+            <td>日常の健康管理</td>
+            <td>中 (アジア、アフリカ、南米)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>２．各指数の関連サイト例</h2>
+      <p>各指数の内容は以下のサイトでも紹介／使用されています。</p>
+      <table>
+        <thead>
+          <tr>
+            <th>指数名</th>
+            <th>関連サイト例</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="3">WBGT</td>
+            <td>環境省 熱中症予防情報サイト</td>
+            <td><a href="https://www.wbgt.env.go.jp/wbgt.php" target="_blank">https://www.wbgt.env.go.jp/wbgt.php</a></td>
+          </tr>
+          <tr>
+            <td>気象庁 WBGTに関する情報</td>
+            <td><a href="https://www.jma.go.jp" target="_blank">https://www.jma.go.jp</a></td>
+          </tr>
+          <tr>
+            <td>NOAA Heat Index Calculator</td>
+            <td><a href="https://www.weather.gov" target="_blank">https://www.weather.gov</a></td>
+          </tr>
+          <tr>
+            <td rowspan="2">HI</td>
+            <td>米国国立気象局 (NWS)</td>
+            <td><a href="https://www.weather.gov" target="_blank">https://www.weather.gov</a></td>
+          </tr>
+          <tr>
+            <td>日本気象学会資料</td>
+            <td><a href="https://www.metsoc.jp" target="_blank">https://www.metsoc.jp</a></td>
+          </tr>
+          <tr>
+            <td rowspan="1">UTCI</td>
+            <td>ヨーロッパ気候評価研究</td>
+            <td><a href="https://www.utci.org" target="_blank">https://www.utci.org</a></td>
+          </tr>
+          <tr>
+            <td rowspan="2">TCI</td>
+            <td>アメリカ労働省 OSHA 資料</td>
+            <td><a href="https://www.osha.gov" target="_blank">https://www.osha.gov</a></td>
+          </tr>
+          <tr>
+            <td>WHO 気候変動と健康</td>
+            <td><a href="https://www.who.int" target="_blank">https://www.who.int</a></td>
+          </tr>
+          <tr>
+            <td rowspan="1">Apparent Temperature</td>
+            <td>NOAA 気候予測センター</td>
+            <td><a href="https://www.cpc.ncep.noaa.gov" target="_blank">https://www.cpc.ncep.noaa.gov</a></td>
+          </tr>
+          <tr>
+            <td rowspan="1">PPD</td>
+            <td>ASHRAE</td>
+            <td><a href="https://www.ashrae.org" target="_blank">https://www.ashrae.org</a></td>
+          </tr>
+          <tr>
+            <td rowspan="2">PET</td>
+            <td>WHO 気候健康評価</td>
+            <td><a href="https://www.who.int" target="_blank">https://www.who.int</a></td>
+          </tr>
+          <tr>
+            <td>ドイツ気候研究所</td>
+            <td><a href="https://www.pik-potsdam.de" target="_blank">https://www.pik-potsdam.de</a></td>
+          </tr>
+          <tr>
+            <td rowspan="1">SET</td>
+            <td>ASHRAE 基準</td>
+            <td><a href="https://www.ashrae.org" target="_blank">https://www.ashrae.org</a></td>
+          </tr>
+           <tr>
+            <td rowspan="1">Humidex</td>
+            <td>カナダ気象局</td>
+            <td><a href="https://www.canada.ca" target="_blank">https://www.canada.ca</a></td>
+          </tr>
+          <tr>
+            <td rowspan="1">Discomfort Index</td>
+            <td>日本気象庁</td>
+            <td><a href="https://www.jma.go.jp" target="_blank">https://www.jma.go.jp</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>３．熱中症の予防</h2>
+      <p>「高齢者のための熱中症対策」、「職場の熱中症対策」あるいは「災害時における熱中症予防について」など、特定の人々や状況に応じた熱中症予防を普段から心がけることが重要です。熱中症は、一般市民から医療従事者まで幅広い層に関わり、平常時から災害時まで様々な状況で発生します。そのため、個人の特性や生活環境に合わせた予防対策が必要となります。熱中症スマートガードでご提供する、気象情報や個人の状況に応じた熱中症リスクレベルの診断結果を日々の予防にお役立てください。</p>
+      <a href="https://www.mhlw.go.jp/seisakunitsuite/bunya/kenkou_iryou/kenkou/nettyuu/nettyuu_taisaku/pamph.html#pamph07" target="_blank" class="btn">厚生労働省「熱中症予防のための情報・資料サイト」</a>
+    </div>
+
+    <div class="text-center">
+      <a href="risk.html" class="btn">あなたの熱中症リスクレベルを計算する</a>
+    </div>
+  </div>
+</body>
+</html>
