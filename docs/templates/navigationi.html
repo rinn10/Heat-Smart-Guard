@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>熱中症スマートガード</title>
+  <style>
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+    }
+    .logo {
+      font-size: 1.5rem;
+      color: #FF4500;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 16px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      padding: 8px 12px;
+      transition: color 0.3s ease, background 0.3s ease;
+    }
+    .nav-links a:hover {
+      color: #FF4500;
+      background: rgba(255, 69, 0, 0.1);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">熱中症スマートガード</a>
+      <ul class="nav-links">
+        <li><a href="index.html">ホームに戻る</a></li>
+        <li><a href="docs/templates/Nerai.html">ミッション</a></li>
+        <li><a href="docs/templates/Calculation.html">リスクの説明</a></li>
+        <li><a href="docs/templates/risk.html">リスクの計算</a></li>
+        <li><a href="docs/templates/prev.html">熱中症指標</a></li>
+        <li><a href="docs/templates/situation.html">地球温暖化</a></li>
+      </ul>
+    </div>
+  </nav>
+</body>
+</html>
