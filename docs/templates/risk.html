@@ -169,7 +169,7 @@
             let cityList = [];
 
             try {
-                const response = await fetch("../static/assets/data/CityList.csv");
+                const response = await fetch("../../static/assets/data/cityList.csv");
                 if (!response.ok) {
                     throw new Error("CSVファイルの読み込みに失敗しました");
                 }
@@ -208,6 +208,6 @@
             }
         });
     </script>
-    <script src="../static/assets/js/script.js"></script>
+    <script src="../../static/assets/js/script.js"></script>
 </body>
 </html>
