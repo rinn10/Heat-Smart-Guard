@@ -12,8 +12,42 @@
       padding: 16px;
       margin: 0;
     }
+
     .title1 {
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      gap: 30px; /* 左右に余白を作る */
+      flex-wrap: wrap; /* 画面が狭いときは縦並びに切り替え */
+    }
+
+    .text-box {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .text-box h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    .text-box p {
+      font-size: 1em;
+    }
+
+    .image-box {
+      flex: 1;
+      min-width: 250px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .image-box img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 10px; /* 角を丸くするとやわらかい印象になります */
     }
 
     .h1{
@@ -193,13 +227,6 @@
 </script>
 
 <body>
-  <div class="title1">
-    <div class="h2">
-      【あなたの熱中症リスクを計算します】
-      一人一人にカスタマイズされた値を算出
-    </div>
-  </div>
-
   <div class="relative h-screen">
     <div class="relative h-3-4 bg-orange">
       <div class="relative text-center">
@@ -232,7 +259,6 @@
       </div>
     </div>
 
-
     <div class="relative h-1-4 bg-blue">
       <div class="text-center">
         <h2 class="text-white text-4xl font-bold">Smart Moves Against the Heat</h2>
@@ -249,6 +275,17 @@
     </div>
   </div>
   
+  <div class="title1">
+    <div class="text-box">
+      <h2>【あなたの熱中症リスクを計算します】</h2>
+      <p>一人一人にカスタマイズされた値を算出</p>
+    </div>
+    <div class="image-box">
+      <img src="static/assets/image/Summer.jpeg" alt="Summer Image">
+    </div>
+  </div>
+
+
    <div class="container1">
     <div class="card">
       <h2>１．地球温暖化や気候変動による熱中症の発生リスク増加</h2>
