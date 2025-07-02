@@ -1,0 +1,266 @@
+body {
+  font-family: Meiryo, sans-serif;
+  /* background: linear-gradient(to bottom, #FFEFD5, #ADD8E6); */
+  background: white;
+  padding: 16px;
+  margin: 0;
+}
+
+.title1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 30px; /* 左右に余白を作る */
+  flex-wrap: wrap; /* 画面が狭いときは縦並びに切り替え */
+}
+
+.grid-item .risk {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 16px;
+  color: #178C6B;
+}
+
+.text-box {
+  flex: 1;
+  min-width: 250px;
+  text-align: center; /* 文字を中央揃えに */
+}
+
+.text-box h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.text-box p {
+  font-size: 1em;
+}
+
+.image-box {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  justify-content: center;
+}
+
+.image-box img {
+  width: 200px;    /* 幅を指定：必要に応じて調整可 */
+  height: auto;    /* 高さは自動でバランス保持 */
+  border-radius: 10px;
+  /* max-width: 400px; */
+}
+
+/* 元が小さめの写真*/
+.image-box2 img {
+  width: 400px;    /* 幅を指定：必要に応じて調整可 */
+  height: auto;    /* 高さは自動でバランス保持 */
+  border-radius: 10px;
+}
+
+.h1 {
+  font-size: 40px;
+  color: white;
+}
+
+.relative {
+  position: relative;
+}
+
+.h-screen {
+  height: 110vh;
+  margin-bottom: 0;
+}
+
+.h-3-4 {
+  height: 60%;
+  margin-bottom: 20px;
+}
+
+.h-1-4 {
+  height: 27%;
+  margin-top: 20px;
+}
+
+.text-white {
+  color: white;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.tracking-widest {
+  letter-spacing: 0.15em;
+}
+
+.text-opacity-30 {
+  opacity: 0.3;
+}
+
+.bg-orange {
+  background: #F39800;
+}
+
+.bg-blue {
+  background: #A2D7D4;
+}
+
+.text-6xl {
+  font-size: 6rem;
+}
+
+.text-5xl {
+  font-size: 2.5rem;
+}
+
+.text-4xl {
+  padding-top: 20px;
+  color: #59564D;
+}
+
+.wave {
+  animation: containedWave 3s ease-in-out infinite alternate;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: transform 0.2s;
+  text-decoration: none;
+  color: white;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn1 {
+  background: #00A95F;
+}
+
+.btn2 {
+  background: white;
+  color: #00A95F;
+}
+
+.btn3 {
+  background: #00A95F;
+}
+
+.btn4 {
+  background: white;
+  color: #00A95F;
+}
+
+.btn5 {
+  background: #00A95F;
+}
+
+.container1 {
+  width: 100%;
+  padding: 16px 0;
+  background: #f0f9f5;
+}
+
+.card {
+  /* background: rgba(255, 255, 255, 0.9); */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.card p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.grid-item {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  position: relative;
+}
+
+.grid-item.highlight {
+  background: #FFE5E5;
+}
+
+.grid-item .number {
+  font-size: 1.5rem;
+  color: #CCC;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.grid-item .title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 16px;
+  color: #444;
+}
+
+.grid-item .subtitle {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.button {
+  display: inline-block;
+  background: #FF4500;
+  color: #FFF;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+  background: #E63E00;
+  transform: scale(1.05);
+}
+
+.button .icon {
+  margin-right: 8px;
+}
+
+@keyframes containedWave {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-12px);
+  }
+}
+
+.soft-orange-bg {
+  background-color: #fff7f0;  /* オレンジがかった白 */
+  padding: 10px 0;  /* 左右のpaddingを0にして横一杯に */
+  border-radius: 12px; /* 角を少し丸くして優しい印象に */
+  margin-bottom: 30px;
+  margin: 0 -16px;  /* bodyのpaddingを相殺して横一杯に */
+}
