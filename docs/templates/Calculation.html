@@ -8,8 +8,14 @@
     body {
       font-family: Meiryo, sans-serif;
       margin: 0;
-      background: linear-gradient(to bottom, #FFEFD5, #ADD8E6);
+      background: #f0f9f5;
       padding: 16px;
+    }
+    .text-center{
+      text-align: center;
+    }
+    .title{
+      margin-top: 70px;
     }
     .container1 {
       max-width: 800px;
@@ -17,9 +23,9 @@
       padding: 16px;
     }
     .card {
-      background: rgba(255, 255, 255, 0.9);
+      /* background: rgba(255, 255, 255, 0.9);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
+      border-radius: 8px; */
       padding: 24px;
       margin-bottom: 24px;
     }
@@ -27,9 +33,15 @@
       font-size: 1.5rem;
       color: #333;
       margin-bottom: 16px;
+      text-align: center;
     }
     .card p {
       color: #666;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .card imp {
+      color: #178C6B;
       line-height: 1.6;
       margin-bottom: 16px;
     }
@@ -73,6 +85,107 @@
     overflow: hidden;
     border-radius: 4px;
     }
+    .risk-meter {
+        text-align: center;
+        font-family: 'Meiryo', sans-serif;
+    }
+    
+    .meter-container {
+        position: relative;
+        width: 250px;
+        height: 125px;
+        margin: 0 auto 20px;
+    }
+    
+    .meter-arc {
+        width: 250px;
+        height: 125px;
+        border-radius: 250px 250px 0 0;
+        background: linear-gradient(90deg, 
+            #4CAF50 0%, 
+            #8BC34A 25%, 
+            #FFC107 50%, 
+            #FF9800 75%, 
+            #F44336 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .meter-inner {
+        position: absolute;
+        bottom: 0;
+        left: 25px;
+        width: 200px;
+        height: 100px;
+        background: white;
+        border-radius: 200px 200px 0 0;
+    }
+    
+    .meter-needle {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 3px;
+        height: 100px;
+        background: #333;
+        transform-origin: bottom center;
+        /* アニメーションを追加 */
+        animation: needleMove 4s ease-in-out infinite alternate;
+    }
+    
+    @keyframes needleMove {
+        0% { transform: translateX(-50%) rotate(-60deg); }
+        25% { transform: translateX(-50%) rotate(-20deg); }
+        50% { transform: translateX(-50%) rotate(10deg); }
+        75% { transform: translateX(-50%) rotate(40deg); }
+        100% { transform: translateX(-50%) rotate(60deg); }
+    }
+    
+    .meter-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    .meter-title {
+        font-weight: bold;
+        color: #2d5a3d;
+        margin-top: 30px;
+    }
+    .image-box {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    justify-content: center;
+    }
+    .image-box img {
+    width: 200px;    /* 幅を指定：必要に応じて調整可 */
+    height: auto;    /* 高さは自動でバランス保持 */
+    border-radius: 10px;
+    /* max-width: 400px; */
+    }
+    .text-box {
+      flex: 1;
+      min-width: 250px;
+      /* text-align: center; 文字を中央揃えに */
+    }
+    .text-box h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    .text-box p {
+      font-size: 1em;
+    }
+    .text-image {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      gap: 30px; /* 左右に余白を作る */
+      flex-wrap: wrap; /* 画面が狭いときは縦並びに切り替え */
+    }
   </style>
 </head>
 
@@ -86,106 +199,140 @@
 </script>
       
 <body>
-  <div class="container1">
-    <div class="text-center">
-      <h1 class="text-2xl font-bold text-gray-800">まず、あなたの熱中症リスクレベルを計算してみましょう！</h1>
-    </div>
+  <div class="text-center title">
+    <h1 class="text-2xl font-bold text-gray-800">まず、あなたの熱中症リスクレベルを計算してみましょう！</h1>
+  </div>
 
-    <div class="card">
-      <h2>リスクレベルの説明</h2>
-      <p>環境省の熱中症予防サイト及び米国国立気象局 (NWS) に掲載された情報や計算式を参考に、当サイト独自の数式から得られた結果を10段階のリスクレベルで表したものです。</p>
+  <div class="card">
+    <h2>リスクレベルとは？</h2>
+      <div class="risk-meter">
+          <div class="meter-container">
+              <div class="meter-arc">
+                  <div class="meter-inner"></div>
+                  <div class="meter-needle"></div>
+              </div>
+              <div class="meter-labels">
+                  <span>安全</span>
+                  <span>注意</span>
+                  <span>警戒</span>
+                  <span>危険</span>
+              </div>
+          </div>
+          <p class="meter-title">10段階のリスクレベル</p>
+      </div>
+    <div class="text-image">
+      <div class="text-box">
+        <p><b>環境省の熱中症予防サイト</b>及び<b>米国国立気象局 (NWS)</b> に掲載された情報や計算式を参考に、
+        <br>当サイト独自の数式から得られた結果を<imp>10段階のリスクレベル</imp>で表したものです。
+        <br>リスクレベルの算出には、以下の要素を用います：</p>
+        <ul>
+          <li>あなたのいる都市の天気 （OpenWeatherとAPI連携）</li>
+          <li>あなたの年齢</li>
+          <li>あなたのいる場所（屋内外等）</li>
+        </ul>
+      </div>
+      <div class="image-box">
+        <img src="../../static/assets/image/0286.png" alt="Cloud Image">
+        <div class="risk-meter">
+          <div class="meter-container">
+            <div class="meter-arc">
+                <div class="meter-inner"></div>
+                <div class="meter-needle"></div>
+            </div>
+            <div class="meter-labels">
+                <span>安全</span>
+                <span>注意</span>
+                <span>警戒</span>
+                <span>危険</span>
+            </div>
+          </div>
+          <p class="meter-title">10段階のリスクレベル</p>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="card">
-      <h2>１．リスクレベル算出に用いる要素</h2>
-      <ul>
-        <li>あなたのいる都市の天気 （OpenWeatherとAPI連携）</li>
-        <li>あなたの年齢</li>
-        <li>あなたのいる場所（屋内外等）</li>
-      </ul>
-    </div>
+  <div class="card">
+    <h2>２．使用指標と補正</h2>
+    <p>Heat IndexとWBGTの両指標を組み合わせた数値を、あなたの年齢とあなたのいる場所（屋内外等）により補正。</p>
+    <a href="prev.html" class="btn">世界の熱中症計算指標について</a>
+  </div>
 
-    <div class="card">
-      <h2>２．使用指標と補正</h2>
-      <p>Heat IndexとWBGTの両指標を組み合わせた数値を、あなたの年齢とあなたのいる場所（屋内外等）により補正。</p>
-      <a href="prev.html" class="btn">世界の熱中症計算指標について</a>
-    </div>
-
-    <div class="card">
-      <h2>３．リスクレベル一覧</h2>
-      <p>計算で得られた数値を10段階で表しました。</p>
-      <table>
-        <thead>
-          <tr>
-            <th>リスクレベル</th>
-            <th>説明</th>
-            <th>対策レベル</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="highlight">
-            <td>10</td>
-            <td>極めて危険 - 重度の熱中症のリスクが極めて高い</td>
-            <td>厳重警戒</td>
-          </tr>
-          <tr class="highlight">
-            <td>9</td>
-            <td>非常に危険 - 重度の熱中症のリスクが高い</td>
-            <td>厳重警戒</td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>警戒 - 中度の熱中症の可能性が高い</td>
-            <td>警戒</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>警戒 - 中度の熱中症に注意</td>
-            <td>警戒</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>注意 - 軽度の熱中症の可能性</td>
-            <td>注意</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>注意 - 熱中症の可能性に留意</td>
-            <td>注意</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>やや注意 - 長時間の活動に注意</td>
-            <td>留意</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>やや注意 - 一定の配慮が必要</td>
-            <td>留意</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>ほぼ安全 - 通常の活動可能</td>
-            <td>平常</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>安全 - 熱中症の心配なし</td>
-            <td>平常</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    
-    <div class="card">
-      <h2>４．備考</h2>
-      <p>以下は環境省のサイト等を参考にした当サイト独自の計算方法の説明です。</p> <br>
-      <p>(1)Heat IndexとWBGTの組み合わせ方法</p>
-      <p><b>重みづけ1 × Heat Index + 重みづけ2 × WBGT</b></p>
-      <div class="image-placeholder"> <img src="../../static/assets/image/HI.png"></img> </div>
-      <p>（２）Heat index（HI）<br>
+  <div class="card">
+    <h2>３．リスクレベル一覧</h2>
+    <p>計算で得られた数値を10段階で表しました。</p>
+    <table>
+      <thead>
+        <tr>
+          <th>リスクレベル</th>
+          <th>説明</th>
+          <th>対策レベル</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight">
+          <td>10</td>
+          <td>極めて危険 - 重度の熱中症のリスクが極めて高い</td>
+          <td>厳重警戒</td>
+        </tr>
+        <tr class="highlight">
+          <td>9</td>
+          <td>非常に危険 - 重度の熱中症のリスクが高い</td>
+          <td>厳重警戒</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>警戒 - 中度の熱中症の可能性が高い</td>
+          <td>警戒</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>警戒 - 中度の熱中症に注意</td>
+          <td>警戒</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>注意 - 軽度の熱中症の可能性</td>
+          <td>注意</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>注意 - 熱中症の可能性に留意</td>
+          <td>注意</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>やや注意 - 長時間の活動に注意</td>
+          <td>留意</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>やや注意 - 一定の配慮が必要</td>
+          <td>留意</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>ほぼ安全 - 通常の活動可能</td>
+          <td>平常</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>安全 - 熱中症の心配なし</td>
+          <td>平常</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="card">
+    <h2>４．備考</h2>
+    <p>以下は環境省のサイト等を参考にした当サイト独自の計算方法の説明です。</p> <br>
+    <p>(1)Heat IndexとWBGTの組み合わせ方法</p>
+    <p><b>重みづけ1 × Heat Index + 重みづけ2 × WBGT</b></p>
+    <div class="image-placeholder"> <img src="../../static/assets/image/HI.png"></img> </div>
+    <p>（２）Heat index（HI）<br>
 　　HI = c1 + (c2 × 気温) + (c3 × 湿度) +  (c4 × 気温 ×湿度) + (c5 × 気温²) +(c6 × 湿度²) + 
-     (c7 × 気温² × 湿度) +  (c8 × 気温×湿度²) +  (c9 × 気温² ×湿度²)　<br>
+  (c7 × 気温² × 湿度) +  (c8 × 気温×湿度²) +  (c9 × 気温² ×湿度²)　<br>
 　　※C1～C9は米国国立気象局で用いられている係数を適用</p>
 　　<p>（３）WBGT <br>
 　　WBGT=0.7×補正Tw ​+ 0.2×Tg​ + 0.1×temp <br>
@@ -194,11 +341,10 @@
 　　　Tg​: 輻射熱（晴、曇り等から判断）と風速で補正した黒球温度（°C）<br>
 　　　temp: 天気予報で提供される乾球温度（°C）<br>
 　　　（補正値は当サイトの補正係数を使用）</p>
-    </div>
-    
-    <div class="text-center">
-      <a href="risk.html" class="btn">あなたの熱中症リスクレベルを計算</a>
-    </div>
+  </div>
+  
+  <div class="text-center">
+    <a href="risk.html" class="btn">あなたの熱中症リスクレベルを計算</a>
   </div>
 </body>
 </html>
