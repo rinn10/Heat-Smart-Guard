@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>リアルタイム熱中症リスク</title>
+  <link href="https://fonts.googleapis.com/css2?family=Meiryo&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Meiryo, sans-serif;
+      background: linear-gradient(to bottom, #FFEFD5, #ADD8E6);
+      margin: 0;
+      padding: 16px;
+    }
+    .container1 {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 35px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    label {
+      color: #333;
+      font-weight: 500;
+    }
+    select {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #FF4500;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 200px;
+      align-self: center;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .button1 {
+      background: #ffcc75;
+      color: #fff;
+      font-size: 1rem;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .button1:hover {
+      background-color: #FF9900;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="navbar"></div>
+  <script>
+    fetch('navigation.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+      });
+  </script>
+
+  <div class="container1">
+    <form id="heat-risk-form" action="/calculate_risk" method="post">
+      <h1>リアルタイム熱中症リスク</h1>
+
+      <label for="age">年齢:</label>
+      <select name="age" id="age" required>
+        <option value="" disabled selected>選択してください</option>
+        <option value="10">~10</option>
+        <option value="20">11~20</option>
+        <option value="30">21~30</option>
+        <option value="40">31~40</option>
+        <option value="50">41~50</option>
+        <option value="60">51~60</option>
+        <option value="70">61~70</option>
+      </select>
+
+      <label for="condition">あなたのいる場所:</label>
+      <select name="condition" id="condition" required>
+        <option value="" disabled selected>選択してください</option>
+        <option value="屋内クーラーあり">屋内クーラーあり</option>
+        <option value="屋内クーラーなし">屋内クーラーなし</option>
+        <option value="屋外">屋外</option>
+      </select>
+
+      <button type="submit">結果を見る</button>
+    </form>
+
+    <!-- 📍ここからformの外に位置情報ボタン -->
+    <div style="text-align: center; margin-top: 20px;">
+      <button type="button" onclick="getLocation()" class="button1">現在地でリスク判定</button>
+      <p id="status" style="margin-top: 10px;"></p>
+    </div>
+  </div>
+
+  <!-- 📍位置情報スクリプト -->
+  <script>
+    function getLocation() {
+      const status = document.getElementById('status');
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+      } else {
+        status.textContent = "お使いのブラウザは位置情報に対応していません。";
+      }
+    }
+
+    function success(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const status = document.getElementById('status');
+      status.textContent = `位置取得: 緯度${lat}, 経度${lon}... リスク計算中`;
+
+      fetch(`/get_risk?lat=${lat}&lon=${lon}`)
+        .then(res => res.json())
+        .then(data => {
+          status.textContent = `熱中症リスク: ${data.heatRisk}、洪水リスク: ${data.floodRisk}`;
+        })
+        .catch(err => {
+          status.textContent = "リスク判定に失敗しました。";
+          console.error(err);
+        });
+    }
+
+    function error() {
+      const status = document.getElementById('status');
+      status.textContent = "現在地を取得できません（権限が拒否された可能性があります）";
+    }
+  </script>
+</body>
+</html>

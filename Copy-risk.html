@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>リアルタイム熱中症リスク</title>
+    <title>Fare Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Meiryo&display=swap" rel="stylesheet">
     <style>
         body {
@@ -26,12 +26,15 @@
             margin-bottom: 30px;
             font-size: 35px;
         }
+
         form {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
         label {
+            display: block;
+            margin-bottom: 5px;
             color: #333333;
             font-weight: 500;
         }
@@ -43,6 +46,10 @@
             border-radius: 4px;
             font-size: 16px;
             background-color: white;
+        }
+        select:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
         }
         button {
             background-color: #FF4500;
@@ -58,6 +65,21 @@
         }
         button:hover {
             background-color: #0056b3;
+            transition: background-color 0.2s ease;
+        }
+        .button1 {
+            border: 1px solid;
+            line-height: 2.5;
+            padding: 0 20px;
+            font-size: 1rem;
+            text-align: center;
+            color: #fff;
+            background: #ffcc75;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .button1:hover {
+            background-color: #FF9900;
         }
         .suggestions {
             position: absolute;
@@ -78,6 +100,10 @@
         }
         .suggestion-item:hover {
             background-color: #f0f0f0;
+        }
+        .input-container {
+            position: relative;
+            width: 100%;
         }
     </style>
 </head>
@@ -106,7 +132,7 @@
                 <option value="50">41~50</option>
                 <option value="60">51~60</option>
                 <option value="70">61~70</option>
-            </select>
+            </select><br>
 
             <label for="condition">あなたのいる場所:</label>
             <select name="condition" id="condition" required>
@@ -114,75 +140,35 @@
                 <option value="屋内クーラーあり">屋内クーラーあり</option>
                 <option value="屋内クーラーなし">屋内クーラーなし</option>
                 <option value="屋外">屋外</option>
-            </select>
+            </select><br>
 
-            <div id="manual-input" style="display:none">
+            <!-- <div class="input-container">
                 <label for="city_name">都市名:</label>
-                <input type="text" name="city_name" id="city_name" placeholder="都市名を入力してください" autocomplete="off">
-                <div id="suggestions" class="suggestions"></div>
-            </div>
+                <input type="text" 
+                       name="city_name" 
+                       id="city_name" 
+                       placeholder="都市名を入力してください" 
+                       autocomplete="off">
+                <div id="suggestions" class="suggestions"></div><br>
+            </div> -->
 
-            <button type="submit">結果を見る</button>
+            <button type ="submit">結果を見る</button>
         </form>
 
-        <p id="status" style="text-align:center; margin-top:10px;"></p>
-    </div>
+        <div style="text-align: center; margin-top: 20px;">
+        <button onclick="getLocation()" class="button1">現在地でリスク判定</button>
+        <p id="status" style="margin-top: 10px;"></p>
+        </div>
+
+
+        <div id="result">
+            <p id="age-result"></p>
+            <p id="condition-result"></p>
+            <p id="city_name-result"></p>
+        </div>
+    </div>    
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const manualInput = document.getElementById("manual-input");
-            const form = document.getElementById("heat-risk-form");
-            const status = document.getElementById("status");
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        manualInput.style.display = "none";
-
-                        form.addEventListener("submit", function (event) {
-                            event.preventDefault();
-                            const age = document.getElementById("age").value;
-                            const condition = document.getElementById("condition").value;
-                            const lat = position.coords.latitude;
-                            const lon = position.coords.longitude;
-
-                            if (!age || !condition) {
-                                alert("すべての項目を選択してください。位置情報取得済み");
-                                return;
-                            }
-
-                            fetch(`/get_risk?lat=${lat}&lon=${lon}&age=${age}&condition=${condition}`)
-                                .then(res => res.json())
-                                .then(data => {
-                                    alert(`熱中症リスク: ${data.heatRisk}\n洪水リスク: ${data.floodRisk}`);
-                                })
-                                .catch(err => {
-                                    alert("リスク判定に失敗しました。サーバーを確認してください。");
-                                    console.error(err);
-                                });
-                        });
-                    },
-                    (error) => {
-                        manualInput.style.display = "block";
-                        form.addEventListener("submit", function (event) {
-                            const age = document.getElementById("age").value;
-                            const condition = document.getElementById("condition").value;
-                            const city = document.getElementById("city_name").value;
-                            if (!age || !condition || !city) {
-                                event.preventDefault();
-                                alert("年齢・場所・都市名すべてを入力してください。");
-                            }
-                            // フォームは自動で /calculate_risk に POST
-                        });
-                    }
-                );
-            } else {
-                manualInput.style.display = "block";
-                status.textContent = "お使いのブラウザは位置情報に対応していません。都市名を入力してください。";
-            }
-        });
-
-        // サジェスト機能
         document.addEventListener("DOMContentLoaded", async () => {
             const cityNameInput = document.getElementById("city_name");
             const suggestionsContainer = document.getElementById("suggestions");
@@ -190,10 +176,14 @@
 
             try {
                 const response = await fetch("../../static/assets/data/cityList.csv");
+                if (!response.ok) {
+                    throw new Error("CSVファイルの読み込みに失敗しました");
+                }
                 const csvData = await response.text();
-                cityList = csvData.split("\n").map(row => row.trim()).filter(row => row.length > 0);
+                cityList = parseCSV(csvData);
             } catch (error) {
-                console.error("都市名候補の読み込みに失敗しました:", error);
+                console.error("エラー:", error);
+                return;
             }
 
             cityNameInput.addEventListener("input", () => {
@@ -201,20 +191,62 @@
                 suggestionsContainer.innerHTML = "";
 
                 if (query) {
-                    const filtered = cityList.filter(city => city.includes(query));
-                    filtered.forEach(city => {
+                    const filteredCities = cityList.filter(city =>
+                        city.includes(query)
+                    );
+
+                    filteredCities.forEach(city => {
                         const item = document.createElement("div");
                         item.textContent = city;
                         item.classList.add("suggestion-item");
-                        item.onclick = () => {
+                        item.addEventListener("click", () => {
                             cityNameInput.value = city;
                             suggestionsContainer.innerHTML = "";
-                        };
+                        });
                         suggestionsContainer.appendChild(item);
                     });
                 }
             });
+
+            function parseCSV(data) {
+                const rows = data.split("\n");
+                return rows.map(row => row.trim()).filter(row => row.length > 0);
+            }
         });
     </script>
+
+    <!-- 位置情報取得スクリプト -->
+    <script>
+      function getLocation() {
+        const status = document.getElementById('status');
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+          status.textContent = "お使いのブラウザは位置情報に対応していません。";
+        }
+      }
+
+      function success(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        status.textContent = `位置取得: 緯度${lat}, 経度${lon}... リスク計算中`;
+
+        fetch(`/get_risk?lat=${lat}&lon=${lon}`)
+          .then(res => res.json())
+          .then(data => {
+            status.textContent = `熱中症リスク: ${data.heatRisk}、洪水リスク: ${data.floodRisk}`;
+          })
+          .catch(err => {
+            status.textContent = "リスク判定に失敗しました。";
+            console.error(err);
+          });
+      }
+
+      function error(err) {
+        status.textContent = "現在地を取得できません（権限が拒否された可能性があります）";
+      }
+    </script>
+
+    <script src="../../static/assets/js/script.js"></script>
 </body>
 </html>
