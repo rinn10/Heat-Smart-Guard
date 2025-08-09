@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fare Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Meiryo&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Meiryo, sans-serif;
+            background: linear-gradient(to bottom, #FFEFD5, #ADD8E6);
+            margin: 0;
+            padding: 16px;
+        }
+        .container1 {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background:white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 30px;
+            font-size: 35px;
+        }
+        .image-box {
+        flex: 1;
+        min-width: 250px;
+        display: flex;
+        justify-content: center;
+        }
+
+        .image-box img {
+        width: 200px;    /* 幅を指定：必要に応じて調整可 */
+        height: auto;    /* 高さは自動でバランス保持 */
+        border-radius: 10px;
+        /* max-width: 400px; */
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333333;
+            font-weight: 500;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+        }
+        select:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+        }
+        button {
+            background-color: #FF4500;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 200px;
+            align-self: center;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transition: background-color 0.2s ease;
+        }
+        .suggestions {
+            position: absolute;
+            top: 70%;
+            left: 0;
+            right: 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: #fff;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+        .input-container {
+            position: relative;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<div id="navbar"></div>
+<script>
+  fetch('navigation.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('navbar').innerHTML = data;
+    });
+</script>
+
+<body>
+    <div class="container1">
+        <form id="heat-risk-form" action="/calculate_risk" method="post">
+            <h1>リアルタイム熱中症リスク</h1>
+
+            <div class="image-box">
+                <img src="../../static/assets/image/Sun.png" alt="Summer Image">
+            </div>
+
+            <label for="age">年齢:</label>
+            <select name="age" id="age" required>
+                <option value="" selected disabled>選択してください</option>
+                <option value="10">~10</option>
+                <option value="20">11~20</option>
+                <option value="30">21~30</option>
+                <option value="40">31~40</option>
+                <option value="50">41~50</option>
+                <option value="60">51~60</option>
+                <option value="70">61~70</option>
+            </select><br>
+
+            <label for="condition">あなたのいる場所:</label>
+            <select name="condition" id="condition" required>
+                <option value="" selected disabled>選択してください</option>
+                <option value="屋内クーラーあり">屋内クーラーあり</option>
+                <option value="屋内クーラーなし">屋内クーラーなし</option>
+                <option value="屋外">屋外</option>
+            </select><br>
+
+            <div class="input-container" id="manual-input">
+                <label for="city_name">都市名:</label>
+                <input type="text" 
+                       name="city_name" 
+                       id="city_name" 
+                       placeholder="都市名を入力してください" 
+                       autocomplete="off">
+                <div id="suggestions" class="suggestions"></div><br>
+            </div>
+
+            <button type="submit">結果を見る</button>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <p id="status"></p>
+        </div>
+
+        <div id="result">
+            <p id="age-result"></p>
+            <p id="condition-result"></p>
+            <p id="city_name-result"></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cityNameInput = document.getElementById("city_name");
+            const suggestionsContainer = document.getElementById("suggestions");
+            let cityList = [];
+
+            fetch("../../static/assets/data/cityList.csv")
+                .then(response => response.text())
+                .then(csv => {
+                    cityList = csv.split("\n").map(c => c.trim()).filter(Boolean);
+                });
+
+            cityNameInput.addEventListener("input", () => {
+                const query = cityNameInput.value.trim();
+                suggestionsContainer.innerHTML = "";
+                if (query) {
+                    const filtered = cityList.filter(city => city.includes(query));
+                    filtered.forEach(city => {
+                        const item = document.createElement("div");
+                        item.classList.add("suggestion-item");
+                        item.textContent = city;
+                        item.onclick = () => {
+                            cityNameInput.value = city;
+                            suggestionsContainer.innerHTML = "";
+                        };
+                        suggestionsContainer.appendChild(item);
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const manualInput = document.getElementById("manual-input");
+            const form = document.getElementById("heat-risk-form");
+            const status = document.getElementById("status");
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        manualInput.style.display = "none";
+
+                        const latInput = document.createElement("input");
+                        latInput.type = "hidden";
+                        latInput.name = "lat";
+                        latInput.value = position.coords.latitude;
+
+                        const lonInput = document.createElement("input");
+                        lonInput.type = "hidden";
+                        lonInput.name = "lon";
+                        lonInput.value = position.coords.longitude;
+
+                        form.appendChild(latInput);
+                        form.appendChild(lonInput);
+
+                        form.addEventListener("submit", (event) => {
+                            const age = document.getElementById("age").value;
+                            const condition = document.getElementById("condition").value;
+                            if (!age || !condition) {
+                                event.preventDefault();
+                                alert("年齢と場所を選択してください。");
+                            }
+                        });
+                    },
+                    (error) => {
+                        manualInput.style.display = "block";
+                        status.textContent = "位置情報の取得が拒否されたため、都市名を入力してください。";
+
+                        form.addEventListener("submit", (event) => {
+                            const age = document.getElementById("age").value;
+                            const condition = document.getElementById("condition").value;
+                            const city = document.getElementById("city_name").value;
+                            if (!age || !condition || !city) {
+                                event.preventDefault();
+                                alert("年齢・場所・都市名すべてを入力してください。");
+                            }
+                        });
+                    }
+                );
+            } else {
+                manualInput.style.display = "block";
+                status.textContent = "お使いのブラウザは位置情報に対応していません。";
+            }
+        });
+    </script>
+    <script src="../../static/assets/js/geo-script.js"></script>
+    <script src="../../static/assets/js/script.js"></script>
+</body>
+</html>
