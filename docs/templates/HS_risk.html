@@ -6,6 +6,66 @@
     <title>Fare Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Meiryo&display=swap" rel="stylesheet">
     <style>
+
+        /* 見出しの余白を少しタイトに */
+        .container1 h1{
+        margin: clamp(12px, 2vw, 20px) 0 clamp(8px, 1.6vw, 16px);
+        }
+
+        /* 太陽イラストのラッパー */
+        .hero-illust{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: clamp(12px, 3vw, 28px) 0;      /* 上下余白を環境に合わせて可変 */
+        }
+
+        /* 正方形のキャンバスを作る */
+        .sun-wrap{
+        position: relative;
+        width: clamp(120px, 18vw, 220px);      /* 画面幅に応じて拡縮：最小120/最大220px */
+        aspect-ratio: 1 / 1;                   /* 正方形を維持 */
+        }
+
+        /* 画像本体 */
+        .sun-wrap img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;                    /* 画像の縦横比を保つ */
+        filter: drop-shadow(0 10px 18px rgba(255, 140, 0, .28));
+        }
+
+        /* やわらかい発光を後ろに敷く（お好みで） */
+        .sun-glow{
+        position: absolute;
+        inset: -14%;
+        border-radius: 50%;
+        background: radial-gradient(closest-side,
+                    rgba(255, 180, 60, .35),
+                    rgba(255, 180, 60, .18) 55%,
+                    rgba(255, 180, 60, 0) 70%);
+        z-index: -1;
+        filter: blur(2px);
+        }
+
+        /* ほんのり浮遊アニメ（回転に変えたい場合は下のspinに変更） */
+        @keyframes float {
+        0%   { transform: translateY(0) }
+        50%  { transform: translateY(-6px) }
+        100% { transform: translateY(0) }
+        }
+        .sun-wrap{ animation: float 6s ease-in-out infinite; }
+
+        /* ゆっくり回転の方が好みならこちらを有効化して上のfloatを外す
+        @keyframes spin {
+        to { transform: rotate(360deg); }
+        }
+        .sun-wrap{ animation: spin 40s linear infinite; }
+        */
+
+        /* フォームとの距離を整える（お好み） */
+        label{ margin-top: clamp(10px, 2vw, 16px); }
+
         body {
             font-family: Meiryo, sans-serif;
             background: linear-gradient(to bottom, #FFEFD5, #ADD8E6);
@@ -120,9 +180,16 @@
         <form id="heat-risk-form" action="/calculate_risk" method="post">
             <h1>リアルタイム熱中症リスク</h1>
 
-            <div class="image-box">
-                <img src="../../static/assets/image/Sun.png" alt="Summer Image">
+            
+            <div class="hero-illust">
+                <div class="sun-wrap">
+                <span class="sun-glow" aria-hidden="true"></span>
+                <img src="../../static/assets/image/new_sun.png" alt="太陽のイラスト">
+                </div>
             </div>
+            <!-- <div class="image-box">
+                <img src="../../static/assets/image/Sun.png" alt="Summer Image">
+            </div> -->
 
             <label for="age">年齢:</label>
             <select name="age" id="age" required>
