@@ -7,12 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Meiryo&display=swap" rel="stylesheet">
     <style>
 
-        /* 見出しの余白を少しタイトに */
         .container1 h1{
         margin: clamp(12px, 2vw, 20px) 0 clamp(8px, 1.6vw, 16px);
         }
 
-        /* 太陽イラストのラッパー */
         .hero-illust{
         display: flex;
         justify-content: center;
@@ -27,11 +25,10 @@
         aspect-ratio: 1 / 1;                   /* 正方形を維持 */
         }
 
-        /* 画像本体 */
-        .sun-wrap img{
-        width: 100%;
-        height: 100%;
-        object-fit: contain;                    /* 画像の縦横比を保つ */
+        .sun-wrap img {
+        width: 50%;   /* ←ここを70%から50%に変更 */
+        height: auto; /* 縦横比を保つなら auto にすると安心 */
+        /*object-fit: contain;                     画像の縦横比を保つ */
         filter: drop-shadow(0 10px 18px rgba(255, 140, 0, .28));
         }
 
@@ -56,6 +53,23 @@
         }
         .sun-wrap{ animation: float 6s ease-in-out infinite; }
 
+
+        .flex {
+        display: flex; /*横並び*/
+        }
+        .flex .image {
+        width: 200px; /*画像サイズ指定*/
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        }
+        .flex .text {
+        margin: 0 0 0 20px;
+        padding: 0;
+        }
+
+
         /* ゆっくり回転の方が好みならこちらを有効化して上のfloatを外す
         @keyframes spin {
         to { transform: rotate(360deg); }
@@ -63,7 +77,7 @@
         .sun-wrap{ animation: spin 40s linear infinite; }
         */
 
-        /* フォームとの距離を整える（お好み） */
+        /* フォームとの距離を整える */
         label{ margin-top: clamp(10px, 2vw, 16px); }
 
         body {
@@ -178,15 +192,10 @@
 <body>
     <div class="container1">
         <form id="heat-risk-form" action="/calculate_risk" method="post">
+        <div class="flex">
             <h1>リアルタイム熱中症リスク</h1>
-
-            
-            <div class="hero-illust">
-                <div class="sun-wrap">
-                <span class="sun-glow" aria-hidden="true"></span>
-                <img src="../../static/assets/image/new_sun.png" alt="太陽のイラスト">
-                </div>
-            </div>
+            <figure class="image"><img src="../../static/assets/image/new_sun.png" alt="太陽のイラスト"></figure>
+        </div>
             <!-- <div class="image-box">
                 <img src="../../static/assets/image/Sun.png" alt="Summer Image">
             </div> -->

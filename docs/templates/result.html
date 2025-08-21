@@ -19,6 +19,47 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+        
+        .container1 h1{
+        margin: clamp(12px, 2vw, 20px) 0 clamp(8px, 1.6vw, 16px);
+        }
+
+        .hero-illust{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: clamp(12px, 3vw, 28px) 0;      /* 上下余白を環境に合わせて可変 */
+        }
+
+        /* 正方形のキャンバスを作る */
+        .sun-wrap{
+        position: relative;
+        width: clamp(120px, 18vw, 220px);      /* 画面幅に応じて拡縮：最小120/最大220px */
+        aspect-ratio: 1 / 1;                   /* 正方形を維持 */
+        }
+
+        .sun-wrap img {
+        width: 50%;   /* ←ここを70%から50%に変更 */
+        height: auto; /* 縦横比を保つなら auto にすると安心 */
+        /*object-fit: contain;                     画像の縦横比を保つ */
+        filter: drop-shadow(0 10px 18px rgba(255, 140, 0, .28));
+        }
+
+        .flex {
+        display: flex; /*横並び*/
+        }
+        .flex .image {
+        width: 200px; /*画像サイズ指定*/
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        }
+        .flex .text {
+        margin: 0 0 0 20px;
+        padding: 0;
+        }
+
         h1 {
             text-align: center;
             color: #333;
@@ -59,7 +100,10 @@
 
 <body>
     <div class="container1">
-        <h1>計算結果</h1>
+        <div class="flex">
+            <h1>計算結果</h1>
+            <figure class="image"><img src="../../static/assets/image/new_sun.png" alt="太陽のイラスト"></figure>
+        </div>
         <div id="result-container">
             <p>計算結果を読み込んでいます...</p>
         </div>
