@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>計算結果</title>
     <style>
+
         body {
             font-family: Meiryo, sans-serif;
             background: linear-gradient(to bottom, #FFEFD5, #ADD8E6);
@@ -19,11 +20,66 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         .container1 h1{
-        margin: clamp(12px, 2vw, 20px) 0 clamp(8px, 1.6vw, 16px);
+          margin: clamp(12px, 2vw, 20px) 0 clamp(8px, 1.6vw, 16px);
+        }
+        .hero-illust{
+          /* display: flex; */
+          justify-content: center;
+          align-items: center;
+          margin: clamp(12px, 3vw, 28px) 0;
+        }
+        .sun-wrap{
+          position: relative;
+          width: clamp(120px, 18vw, 220px);
+          aspect-ratio: 1 / 1;
+        }
+        .sun-wrap img {
+          width: 50%;
+          height: auto;
+          filter: drop-shadow(0 10px 18px rgba(255, 140, 0, .28));
         }
 
+        .pic{
+            width: 100%;
+            height: 100%;
+        }
+
+        .flex { display: flex; }
+        .flex .image { width: 200px; margin: 0; padding: 0; overflow: hidden; position: relative; }
+        .flex .text { margin: 0 0 0 20px; padding: 0; }
+
+        h1 { text-align: center; color: #333; }
+        p  { font-size: 18px; color: #555; }
+
+        button {
+          display: block; margin: 20px auto; padding: 10px 20px;
+          font-size: 16px; color: white; background-color: #FF4500;
+          border: none; border-radius: 5px; cursor: pointer;
+        }
+        button:hover { background-color: #0056b3; }
+
+        .final{ font-size: 25px; color: #F39800; }
+
+        /* リスク色分けバッジ */
+        .risk-chip{
+          display:inline-block; padding:4px 10px; border-radius:999px;
+          color:#fff; font-weight:700; line-height:1;
+        }
+        .risk-low{ background:#22c55e; }        /* 緑 */
+        .risk-mid{ background:#f59e0b; }        /* オレンジ */
+        .risk-high{ background:#ef4444; }       /* 赤 */
+        .risk-veryhigh{ background:#b91c1c; }   /* 濃い赤 */
+        .risk-unknown{ background:#6b7280; }    /* グレー */
+        .risk-label{ margin-left:6px; font-weight:600; }
+
+        .flex .image img {
+        width: 120px;   /* 横幅を小さく */
+        height: auto;   /* 縦横比を維持 */
+        }
+
+                /* 太陽イラストのラッパー */
         .hero-illust{
         display: flex;
         justify-content: center;
@@ -31,66 +87,44 @@
         margin: clamp(12px, 3vw, 28px) 0;      /* 上下余白を環境に合わせて可変 */
         }
 
-        /* 正方形のキャンバスを作る */
         .sun-wrap{
-        position: relative;
-        width: clamp(120px, 18vw, 220px);      /* 画面幅に応じて拡縮：最小120/最大220px */
-        aspect-ratio: 1 / 1;                   /* 正方形を維持 */
+        width: clamp(80px, 12vw, 150px); /* 小さめに調整 */
         }
 
-        .sun-wrap img {
-        width: 50%;   /* ←ここを70%から50%に変更 */
-        height: auto; /* 縦横比を保つなら auto にすると安心 */
-        /*object-fit: contain;                     画像の縦横比を保つ */
+        /* 画像本体 */
+        .sun-wrap img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;                    /* 画像の縦横比を保つ */
         filter: drop-shadow(0 10px 18px rgba(255, 140, 0, .28));
         }
 
-        .flex {
-        display: flex; /*横並び*/
-        }
-        .flex .image {
-        width: 200px; /*画像サイズ指定*/
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        position: relative;
-        }
-        .flex .text {
-        margin: 0 0 0 20px;
-        padding: 0;
+        /* やわらかい発光を後ろに敷く（お好みで） */
+        .sun-glow{
+        position: absolute;
+        inset: -14%;
+        border-radius: 50%;
+        background: radial-gradient(closest-side,
+                    rgba(255, 180, 60, .35),
+                    rgba(255, 180, 60, .18) 55%,
+                    rgba(255, 180, 60, 0) 70%);
+        z-index: -1;
+        filter: blur(2px);
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
+        /* ほんのり浮遊アニメ（回転に変えたい場合は下のspinに変更） */
+        @keyframes float {
+        0%   { transform: translateY(0) }
+        50%  { transform: translateY(-6px) }
+        100% { transform: translateY(0) }
         }
-        p {
-            font-size: 18px;
-            color: #555;
-        }
-        button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: white;
-            background-color: #FF4500;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        final{
-            font-size: 25px;
-            color: #F39800;
-        }
+        .sun-wrap{ animation: float 6s ease-in-out infinite; }
     </style>
 </head>
 
 <div id="navbar"></div>
 <script>
+  // パスが合っているかはリポジトリの配置に合わせて調整
   fetch('navigation.html')
     .then(response => response.text())
     .then(data => {
@@ -99,45 +133,90 @@
 </script>
 
 <body>
-    <div class="container1">
-        <div class="flex">
-            <h1>計算結果</h1>
-            <figure class="image"><img src="../../static/assets/image/new_sun.png" alt="太陽のイラスト"></figure>
+  <!-- <div class="container1">
+    <div class="flex">
+      <h1>計算結果</h1>
+        <div class="hero-illust">
+            <div class="sun-wrap">
+            <span class="sun-glow" aria-hidden="true"></span>
+            <img src="../../static/assets/image/new_sun.png" alt="太陽のイラスト">
+            </div>
         </div>
-        <div id="result-container">
-            <p>計算結果を読み込んでいます...</p>
+    </div> -->
+
+  <div class="container1">
+    <h1>計算結果</h1>
+    <div class="hero-illust">
+        <div class="sun-wrap">
+        <span class="sun-glow" aria-hidden="true"></span>
+        <img src="../../static/assets/image/new_sun.png" alt="太陽のイラスト">
         </div>
-        <button id="retry-btn">もう一度やってみる</button>
-        <p>※注　最終リスクは個人の健康状態によって変動します。</p>
     </div>
 
-    <script>
-        function displayResult() {
-            const resultContainer = document.getElementById("result-container");
-            const resultData = JSON.parse(localStorage.getItem("heatRiskResult"));
-            
-            console.log("LocalStorage data:", localStorage.getItem("heatRiskResult"));
+    <div id="result-container">
+      <p>計算結果を読み込んでいます...</p>
+    </div>
 
-            if (!resultData) {
-                resultContainer.innerHTML = `
-                    <p>計算結果が見つかりません。再試行してください。</p>
-                `;
-                return;
-            }
+    <button id="retry-btn">もう一度やってみる</button>
+    <p>※注　最終リスクは個人の健康状態によって変動します。</p>
+  </div>
 
-            resultContainer.innerHTML = `
-                <p><strong>都市名:</strong> ${resultData.city_name}</p>
-                <p><strong>年齢:</strong> ${resultData.age}</p>
-                <p><strong>場所:</strong> ${resultData.condition}</p>
-                <p class="final"><strong>最終リスク:${Number(resultData.riskLevel).toFixed(2)}</strong></p>
-            `;
-        }
-        
-        document.getElementById("retry-btn").addEventListener("click", () => {
-            window.location.href = "hs_risk2.html";
-        });
+  <script>
+    // バックエンドが risk_bucket / risk_label を返していないとき用のフォールバック
+    function riskStyle(value){
+      const v = Number(value);
+      if (!isFinite(v)) return { cls:'risk-unknown', label:'不明' };
+      if (v < 1)   return { cls:'risk-low',      label:'低' };
+      if (v < 2.5) return { cls:'risk-mid',      label:'中' };
+      if (v < 4)   return { cls:'risk-high',     label:'高' };
+      return { cls:'risk-veryhigh',              label:'非常に高い' };
+    }
 
-        document.addEventListener("DOMContentLoaded", displayResult);
-    </script>
+    function displayResult() {
+      const resultContainer = document.getElementById("result-container");
+      const raw = localStorage.getItem("heatRiskResult");
+      console.log("LocalStorage data:", raw);
+      const resultData = raw ? JSON.parse(raw) : null;
+
+      if (!resultData) {
+        resultContainer.innerHTML = `<p>計算結果が見つかりません。再試行してください。</p>`;
+        return;
+      }
+
+      // 数値の表示用
+      const riskNum = Number(resultData.riskLevel);
+      const riskFixed = isFinite(riskNum) ? riskNum.toFixed(2) : "—";
+
+      // ★ バックエンドの結果を優先（なければフォールバック）
+      const styleInfo = resultData.riskBucket
+        ? { cls: `risk-${resultData.riskBucket}`, label: resultData.riskLabel || "" }
+        : riskStyle(riskNum);
+
+      // 座標で計算した場合は city_name が null のこともあるので配慮
+      const placeLine = resultData.city_name
+        ? `<p><strong>都市名:</strong> ${resultData.city_name}</p>`
+        : (resultData.lat && resultData.lon
+            ? `<p><strong>座標:</strong> ${resultData.lat.toFixed(3)}, ${resultData.lon.toFixed(3)}</p>`
+            : ``);
+
+      resultContainer.innerHTML = `
+        <p><strong>年齢:</strong> ${resultData.age ?? "—"}</p>
+        <p><strong>場所:</strong> ${resultData.condition ?? "—"}</p>
+
+        <p class="final">
+          <strong>最終リスク:</strong>
+          <span class="risk-chip ${styleInfo.cls}">${riskFixed}</span>
+        </p>
+      `;
+    }
+// ${placeLine}
+
+    document.getElementById("retry-btn").addEventListener("click", () => {
+      // ここも配置に合わせて。今のファイルと同じ階層に hs_risk2.html がある前提
+      window.location.href = "hs_risk2.html";
+    });
+
+    document.addEventListener("DOMContentLoaded", displayResult);
+  </script>
 </body>
 </html>

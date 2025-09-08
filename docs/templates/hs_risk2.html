@@ -20,11 +20,8 @@
         margin: clamp(12px, 3vw, 28px) 0;      /* 上下余白を環境に合わせて可変 */
         }
 
-        /* 正方形のキャンバスを作る */
         .sun-wrap{
-        position: relative;
-        width: clamp(120px, 18vw, 220px);      /* 画面幅に応じて拡縮：最小120/最大220px */
-        aspect-ratio: 1 / 1;                   /* 正方形を維持 */
+        width: clamp(80px, 12vw, 150px); /* 小さめに調整 */
         }
 
         /* 画像本体 */
@@ -179,7 +176,6 @@
     <div class="container1">
         <form id="heat-risk-form" action="/calculate_risk" method="post">
             <h1>リアルタイム熱中症リスク</h1>
-
             
             <div class="hero-illust">
                 <div class="sun-wrap">
