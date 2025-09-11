@@ -67,11 +67,11 @@
           display:inline-block; padding:4px 10px; border-radius:999px;
           color:#fff; font-weight:700; line-height:1;
         }
-        .risk-low{ background:#22c55e; }        /* 緑 */
+        .risk-low{ background:#4169e1; }        /* 緑 */
         .risk-mid{ background:#f59e0b; }        /* オレンジ */
-        .risk-high{ background:#ef4444; }       /* 赤 */
-        .risk-veryhigh{ background:#b91c1c; }   /* 濃い赤 */
-        .risk-unknown{ background:#6b7280; }    /* グレー */
+        .risk-high{ background:#b91c1c; }       /* 赤 */
+        .risk-veryhigh{ background:black; }   /* 濃い赤 */
+        .risk-unknown{ background:black; }    /* グレー */
         .risk-label{ margin-left:6px; font-weight:600; }
 
         .flex .image img {
@@ -166,9 +166,9 @@
     function riskStyle(value){
       const v = Number(value);
       if (!isFinite(v)) return { cls:'risk-unknown', label:'不明' };
-      if (v < 1)   return { cls:'risk-low',      label:'低' };
-      if (v < 2.5) return { cls:'risk-mid',      label:'中' };
-      if (v < 4)   return { cls:'risk-high',     label:'高' };
+      if (v < 5)   return { cls:'risk-low',      label:'低' };
+      if (v < 8) return { cls:'risk-mid',      label:'中' };
+      if (v < 11)   return { cls:'risk-high',     label:'高' };
       return { cls:'risk-veryhigh',              label:'非常に高い' };
     }
 
